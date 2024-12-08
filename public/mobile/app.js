@@ -130,7 +130,7 @@ function loadTodos() {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit'
-        }).replace(/\//g, '-');  // Convert MM/DD/YYYY to MM-DD-YYYY
+        }).split('/').reverse().join('-'); // Convert MM/DD/YYYY to YYYY-MM-DD
         
         todoList.setAttribute('data-header', `To Do Items as of ${formattedDate}`);
 
@@ -161,11 +161,13 @@ function loadTodos() {
                 </div>
             `;
 
-            // After setting the background color, add this:
+            // Update the category label styling
             const categoryLabel = div.querySelector('.category-label');
-            categoryLabel.style.backgroundColor = adjustColor(colorScheme.bg, -10); // Slightly darker
-            categoryLabel.style.padding = '3px 8px';
+            categoryLabel.style.backgroundColor = darkenHSLColor(colorScheme.bg, 10);
+            categoryLabel.style.padding = '3px 12px';
             categoryLabel.style.borderRadius = '4px';
+            categoryLabel.style.display = 'inline-block';
+            categoryLabel.style.textAlign = 'center';
 
             // Add status change handler
             const statusSelect = div.querySelector('.status-select-item');
@@ -370,21 +372,16 @@ categorySelect.addEventListener('change', async function(e) {
     }
 });
 
-// Add this helper function at the top of your file
-function adjustColor(color, amount) {
-    const lightenColor = (col, amt) => {
-        const num = parseInt(col, 16);
-        const r = Math.min(255, Math.max(0, (num >> 16) + amt));
-        const g = Math.min(255, Math.max(0, ((num & 0x0000FF) >> 8) + amt));
-        const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amt));
-        return '#' + (b | (g << 8) | (r << 16)).toString(16).padStart(6, '0');
-    };
+// Replace the adjustColor function with this more accurate HSL color adjustment
+function darkenHSLColor(hslColor, amount) {
+    // Parse HSL color
+    const match = hslColor.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
+    if (!match) return hslColor;
     
-    // Convert HSL colors to hex if needed
-    if (color.startsWith('#')) {
-        return lightenColor(color.slice(1), amount);
-    }
-    // For your existing color codes, you might need to add conversion
-    return color; // Fallback
+    const h = parseInt(match[1]);
+    const s = parseInt(match[2]);
+    const l = Math.max(0, parseInt(match[3]) - amount); // Reduce lightness to darken
+    
+    return `hsl(${h}, ${s}%, ${l}%)`;
 }
  
