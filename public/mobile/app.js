@@ -61,21 +61,24 @@ todoForm.addEventListener('submit', async (e) => {
     const status = document.getElementById('status').value;
     const deadline = document.getElementById('deadline').value;
 
-    console.log('Attempting to add todo:', { description, category, status, deadline });
+    const todoData = {
+        userId: auth.currentUser.uid,
+        description,
+        category,
+        status,
+        deadline,
+        timestamp: new Date()
+    };
+    
+    console.log('Adding todo with data:', todoData);
 
     try {
-        const docRef = await addDoc(collection(db, 'todos'), {
-            userId: auth.currentUser.uid,
-            description,
-            category,
-            status,
-            deadline,
-            timestamp: new Date()
-        });
-        console.log('Todo added successfully with ID:', docRef.id);
+        const docRef = await addDoc(collection(db, 'todos'), todoData);
+        console.log('Todo added with ID:', docRef.id);
         todoForm.reset();
     } catch (error) {
         console.error('Error adding todo:', error);
+        console.error('Error details:', error.code, error.message);
         alert(error.message);
     }
 });
@@ -107,6 +110,12 @@ function loadTodos() {
 
     onSnapshot(todosQuery, (snapshot) => {
         console.log('Received todos snapshot, size:', snapshot.size);
+        console.log('Current user ID:', auth.currentUser.uid);
+        
+        snapshot.forEach((doc) => {
+            console.log('Todo document:', doc.id, doc.data());
+        });
+
         todoList.innerHTML = '';
         
         // Get the timestamp of the most recent todo
@@ -202,6 +211,8 @@ function loadTodos() {
 
             todoList.appendChild(div);
         });
+    }, (error) => {
+        console.error('Error in snapshot listener:', error);
     });
 }
 
