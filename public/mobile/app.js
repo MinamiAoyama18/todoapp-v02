@@ -5,10 +5,10 @@ import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, ge
 
 // Update the status colors with softer, distinct colors
 const statusColors = {
-    'not started': { bg: '#FFF3E0', text: '#333333' },  // Light orange
-    'in progress': { bg: '#E3F2FD', text: '#333333' },  // Light blue
-    'complete': { bg: '#E8F5E9', text: '#1B5E20' },     // Light green with dark green text
-    'aborted': { bg: '#FCE4EC', text: '#880E4F' }       // Light pink with dark pink text
+    'not started': { bg: 'hsl(40, 100%, 95%)', text: '#333333' },  // Light orange
+    'in progress': { bg: 'hsl(210, 100%, 95%)', text: '#333333' }, // Light blue
+    'complete': { bg: 'hsl(120, 40%, 90%)', text: '#1B5E20' },     // Light green
+    'aborted': { bg: 'hsl(350, 100%, 95%)', text: '#880E4F' }      // Light pink
 };
 
 // Copy your Firebase configuration from the desktop version
@@ -163,7 +163,7 @@ function loadTodos() {
 
             // Update the category label styling
             const categoryLabel = div.querySelector('.category-label');
-            categoryLabel.style.backgroundColor = darkenHSLColor(colorScheme.bg, 10);
+            categoryLabel.style.backgroundColor = darkenHSLColor(colorScheme.bg, 5);
             categoryLabel.style.padding = '3px 12px';
             categoryLabel.style.borderRadius = '4px';
             categoryLabel.style.display = 'inline-block';
@@ -372,15 +372,22 @@ categorySelect.addEventListener('change', async function(e) {
     }
 });
 
-// Replace the adjustColor function with this more accurate HSL color adjustment
+// Update the color schemes to use HSL format
+const statusColors = {
+    'not started': { bg: 'hsl(40, 100%, 95%)', text: '#333333' },  // Light orange
+    'in progress': { bg: 'hsl(210, 100%, 95%)', text: '#333333' }, // Light blue
+    'complete': { bg: 'hsl(120, 40%, 90%)', text: '#1B5E20' },     // Light green
+    'aborted': { bg: 'hsl(350, 100%, 95%)', text: '#880E4F' }      // Light pink
+};
+
+// Update the darkenHSLColor function
 function darkenHSLColor(hslColor, amount) {
-    // Parse HSL color
     const match = hslColor.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
     if (!match) return hslColor;
     
     const h = parseInt(match[1]);
     const s = parseInt(match[2]);
-    const l = Math.max(0, parseInt(match[3]) - amount); // Reduce lightness to darken
+    const l = Math.max(0, parseInt(match[3]) - amount); // Reduce lightness by amount
     
     return `hsl(${h}, ${s}%, ${l}%)`;
 }
