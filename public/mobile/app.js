@@ -157,7 +157,7 @@ function loadTodos() {
                     </select>
                 </div>
                 <div class="todo-line-2">
-                    <span class="category-label">Category: <span class="category-value">${todo.category}</span></span>
+                    <span class="category-label">[${todo.category}]</span>
                     <span class="deadline-label">By <span class="deadline-value">${todo.deadline}</span></span>
                     <button class="delete-btn" data-id="${docSnapshot.id}">Delete</button>
                 </div>
