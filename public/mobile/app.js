@@ -125,14 +125,12 @@ function loadTodos() {
         }
         
         // Format the timestamp in local timezone
-        const formattedDate = latestTimestamp.toLocaleString('en-US', {
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('en-US', {
             year: 'numeric',
             month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true
-        });
+            day: '2-digit'
+        }).replace(/\//g, '-');  // Convert MM/DD/YYYY to MM-DD-YYYY
         
         todoList.setAttribute('data-header', `To Do Items as of ${formattedDate}`);
 
@@ -157,11 +155,17 @@ function loadTodos() {
                     </select>
                 </div>
                 <div class="todo-line-2">
-                    <span class="category-label">[${todo.category}]</span>
+                    <span class="category-label">${todo.category}</span>
                     <span class="deadline-label">By <span class="deadline-value">${todo.deadline}</span></span>
                     <button class="delete-btn" data-id="${docSnapshot.id}">Delete</button>
                 </div>
             `;
+
+            // After setting the background color, add this:
+            const categoryLabel = div.querySelector('.category-label');
+            categoryLabel.style.backgroundColor = adjustColor(colorScheme.bg, -10); // Slightly darker
+            categoryLabel.style.padding = '3px 8px';
+            categoryLabel.style.borderRadius = '4px';
 
             // Add status change handler
             const statusSelect = div.querySelector('.status-select-item');
@@ -365,4 +369,22 @@ categorySelect.addEventListener('change', async function(e) {
         cancelBtn.onclick = () => handleCategory(false);
     }
 });
+
+// Add this helper function at the top of your file
+function adjustColor(color, amount) {
+    const lightenColor = (col, amt) => {
+        const num = parseInt(col, 16);
+        const r = Math.min(255, Math.max(0, (num >> 16) + amt));
+        const g = Math.min(255, Math.max(0, ((num & 0x0000FF) >> 8) + amt));
+        const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amt));
+        return '#' + (b | (g << 8) | (r << 16)).toString(16).padStart(6, '0');
+    };
+    
+    // Convert HSL colors to hex if needed
+    if (color.startsWith('#')) {
+        return lightenColor(color.slice(1), amount);
+    }
+    // For your existing color codes, you might need to add conversion
+    return color; // Fallback
+}
  
