@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Form -->
+    <div id="loginSection">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" 
+                       autocomplete="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" 
+                       autocomplete="current-password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        
+        <p>Don't have an account? 
+            <button type="button" id="switchToSignup" style="cursor: pointer;">Sign Up</button>
+        </p>
+    </div>
+
+    <!-- Sign Up Form -->
+    <div id="signupSection" style="display: none;">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" name="email" 
+                       autocomplete="email" required>
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" name="password" 
+                       autocomplete="new-password" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+        
+        <p>Already have an account? 
+            <button type="button" id="switchToLogin">Login</button>
+        </p>
+    </div>
+
+    <!-- Todo Form section -->
+    <div id="todoSection" style="display:none;">
+        <div class="header-section">
+            <div class="header-content">
+                <h2>Add New Todo</h2>
+                <p class="user-email">Logged in as: <span id="userEmail"></span></p>
+            </div>
+            <button id="logoutButton" class="logout-button" onclick="handleLogout()">Logout</button>
+        </div>
+        <form id="todoForm">
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" 
+                       autocomplete="off" required>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required 
+                            onchange="handleCategoryChange(this)">
+                        <option value="">Select Category</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option value="not started">Not Started</option>
+                        <option value="in progress">In Progress</option>
+                        <option value="complete">Complete</option>
+                        <option value="aborted">Aborted</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deadline">Deadline</label>
+                    <input type="date" id="deadline" name="deadline" required>
+                </div>
+            </div>
+            
+            <button type="submit">Add Todo</button>
+        </form>
+
+        <div class="sorting-controls">
+            <select id="sortField">
+                <option value="entryDate">Entry Date</option>
+                <option value="deadline">Deadline</option>
+                <option value="category">Category</option>
+            </select>
+            <select id="sortDirection">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+            <button type="button" onclick="applySorting()">Apply Sort</button>
+        </div>
+
+        <div id="todoList">
+            <!-- Todos will be displayed here -->
+        </div>
+
+        <div id="databaseInfo">
+            <!-- Database info will be displayed here -->
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="app.js"></script>
+
+    <script>
+    // Update the redirect script
+    if (!/mobile/.test(window.location.pathname) && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        window.location.href = '/mobile';
+    }
+    </script>
+
+    <script>
+    // Add this after your existing scripts
+    window.onload = function() {
+        // Check if redirected from mobile with signup parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('signup') === 'true') {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('signupSection').style.display = 'block';
+        }
+    }
+    </script>
+</body>
+</html>
+
+
+</```
+rewritten_file>

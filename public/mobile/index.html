@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Todo App Mobile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-mobile">
+        <!-- Login Form -->
+        <div id="loginSection">
+            <h2>📱 Mobile Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <div class="divider">
+                <span>OR</span>
+            </div>
+            <button type="button" id="switchToSignup" class="signup-btn">Sign Up</button>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signupSection" style="display: none;">
+            <h2>📱 Mobile Sign Up</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" name="password" required>
+                </div>
+                <button type="submit" class="signup-btn">Sign Up</button>
+            </form>
+            <div class="divider">
+                <span>OR</span>
+            </div>
+            <button type="button" id="switchToLogin" class="login-btn">Back to Login</button>
+        </div>
+
+        <!-- Todo Section -->
+        <div id="todoSection" style="display:none;">
+            <div class="header-section">
+                <h2 class="mobile-title">📱 Mobile Todo List</h2>
+                <div class="user-info">
+                    <span id="userEmail"></span>
+                    <button id="logoutButton">Logout</button>
+                </div>
+            </div>
+            
+            <form id="todoForm">
+                <input type="text" id="description" placeholder="New Todo" required>
+                <div class="form-row">
+                    <select id="category" required class="category-select">
+                        <option value="">Select Category</option>
+                    </select>
+                    <select id="status" class="status-select">
+                        <option value="">Select Progress</option>
+                        <option value="not started">Not Started</option>
+                        <option value="in progress">In Progress</option>
+                        <option value="complete" disabled>Complete</option>
+                        <option value="aborted" disabled>Aborted</option>
+                    </select>
+                </div>
+                <input type="date" 
+                       id="deadline" 
+                       required 
+                       class="deadline-input" 
+                       data-placeholder="Choose Deadline">
+                <button type="submit">Add Todo</button>
+            </form>
+
+            <div id="todoList">
+                <!-- Todos will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
+    <script type="module" src="app.js"></script>
+
+    <!-- Add this right before the closing body tag -->
+    <div id="categoryModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Add New Category</h3>
+            <input type="text" id="newCategoryInput" placeholder="Enter category name">
+            <div class="modal-buttons">
+                <button id="cancelCategory" class="cancel-btn">Cancel</button>
+                <button id="confirmCategory" class="confirm-btn">OK</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
