@@ -372,14 +372,6 @@ categorySelect.addEventListener('change', async function(e) {
     }
 });
 
-// Update the color schemes to use HSL format
-const statusColors = {
-    'not started': { bg: 'hsl(40, 100%, 95%)', text: '#333333' },  // Light orange
-    'in progress': { bg: 'hsl(210, 100%, 95%)', text: '#333333' }, // Light blue
-    'complete': { bg: 'hsl(120, 40%, 90%)', text: '#1B5E20' },     // Light green
-    'aborted': { bg: 'hsl(350, 100%, 95%)', text: '#880E4F' }      // Light pink
-};
-
 // Update the darkenHSLColor function
 function darkenHSLColor(hslColor, amount) {
     const match = hslColor.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
