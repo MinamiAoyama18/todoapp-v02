@@ -123,6 +123,27 @@ function filterAndDisplayTodos() {
     displayTodos(filteredTodos);
 }
 
+// Add this helper function for deadline calculation
+function getDeadlineText(deadlineDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    const deadline = new Date(deadlineDate);
+    deadline.setHours(0, 0, 0, 0);
+    
+    const diffTime = deadline - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) {
+        return `By ${deadlineDate} (Last Day)`;
+    } else if (diffDays > 0) {
+        return `By ${deadlineDate} (${diffDays} days)`;
+    } else {
+        return `By ${deadlineDate} (${Math.abs(diffDays)} days overdue)`;
+    }
+}
+
+// Update the displayTodos function
 function displayTodos(todos) {
     todoList.innerHTML = '';
     const today = new Date();
@@ -136,6 +157,8 @@ function displayTodos(todos) {
         div.style.backgroundColor = colorScheme.bg;
         div.style.color = colorScheme.text;
         
+        const deadlineText = getDeadlineText(todo.deadline);
+        
         div.innerHTML = `
             <div class="todo-line-1">
                 <span class="description ${['complete', 'aborted'].includes(todo.status) ? 'completed' : ''}">${todo.description}</span>
@@ -148,15 +171,35 @@ function displayTodos(todos) {
             </div>
             <div class="todo-line-2">
                 <span class="category-label">${todo.category}</span>
-                <span class="deadline-label">By ${todo.deadline}</span>
+                <span class="deadline-label">${deadlineText}</span>
                 <button class="delete-btn" data-id="${todo.docId}">Delete</button>
             </div>
         `;
+
+        // Add darker background for category
+        const categoryLabel = div.querySelector('.category-label');
+        categoryLabel.style.backgroundColor = darkenHSLColor(colorScheme.bg, 5);
+        categoryLabel.style.padding = '3px 12px';
+        categoryLabel.style.borderRadius = '4px';
+        categoryLabel.style.display = 'inline-block';
+        categoryLabel.style.textAlign = 'center';
 
         // Add event listeners
         setupTodoItemListeners(div, todo);
         todoList.appendChild(div);
     });
+}
+
+// Add the helper function for darkening colors
+function darkenHSLColor(hslColor, amount) {
+    const match = hslColor.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
+    if (!match) return hslColor;
+    
+    const h = parseInt(match[1]);
+    const s = parseInt(match[2]);
+    const l = Math.max(0, parseInt(match[3]) - amount); // Reduce lightness by amount
+    
+    return `hsl(${h}, ${s}%, ${l}%)`;
 }
 
 // Event listeners for filters
