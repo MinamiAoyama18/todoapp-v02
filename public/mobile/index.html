@@ -90,18 +90,18 @@
                 <div class="filter-container">
                     <div class="filter-group">
                         <label>Filter by Categories</label>
-                        <div class="multi-select" id="categoryFilter">
+                        <select id="categoryFilter" multiple class="multi-select">
                             <!-- Categories will be added dynamically -->
-                        </div>
+                        </select>
                     </div>
                     <div class="filter-group">
                         <label>Filter by Progress</label>
-                        <div class="multi-select" id="progressFilter">
-                            <label><input type="checkbox" value="not started" checked> Not Started</label>
-                            <label><input type="checkbox" value="in progress" checked> In Progress</label>
-                            <label><input type="checkbox" value="complete" checked> Complete</label>
-                            <label><input type="checkbox" value="aborted" checked> Aborted</label>
-                        </div>
+                        <select id="progressFilter" multiple class="multi-select">
+                            <option value="not started" selected>Not Started</option>
+                            <option value="in progress" selected>In Progress</option>
+                            <option value="complete" selected>Complete</option>
+                            <option value="aborted" selected>Aborted</option>
+                        </select>
                     </div>
                 </div>
             </div>

@@ -526,4 +526,92 @@ function displayTodos(todos = allTodos) {
     // ... rest of your existing displayTodos code ...
     // Just use 'todos' instead of 'allTodos' when displaying
 }
+
+// Declare allTodos at the top with other declarations
+let allTodos = [];
+
+// Update loadTodos function
+function loadTodos() {
+    const todosQuery = query(
+        collection(db, 'todos'),
+        where('userId', '==', auth.currentUser.uid),
+        orderBy('timestamp', 'desc')
+    );
+
+    onSnapshot(todosQuery, (snapshot) => {
+        allTodos = snapshot.docs.map(doc => ({
+            ...doc.data(),
+            docId: doc.id
+        }));
+        
+        updateCategoryFilter();
+        filterAndDisplayTodos();
+    });
+}
+
+// Update category filter function
+function updateCategoryFilter() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const categories = new Set();
+    
+    // Collect unique categories
+    allTodos.forEach(todo => categories.add(todo.category));
+    
+    // Update category filter options
+    categoryFilter.innerHTML = Array.from(categories)
+        .map(category => `<option value="${category}" selected>${category}</option>`)
+        .join('');
+}
+
+// Add filter event listeners
+document.getElementById('categoryFilter').addEventListener('change', filterAndDisplayTodos);
+document.getElementById('progressFilter').addEventListener('change', filterAndDisplayTodos);
+
+// Update filter and display function
+function filterAndDisplayTodos() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const progressFilter = document.getElementById('progressFilter');
+    
+    // Get selected values
+    const selectedCategories = Array.from(categoryFilter.selectedOptions).map(opt => opt.value);
+    const selectedProgress = Array.from(progressFilter.selectedOptions).map(opt => opt.value);
+    
+    // Filter todos
+    const filteredTodos = allTodos.filter(todo => 
+        selectedCategories.includes(todo.category) &&
+        selectedProgress.includes(todo.status)
+    );
+    
+    // Update display
+    const todoList = document.getElementById('todoList');
+    todoList.innerHTML = '';
+    
+    // Format date for header
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    todoList.setAttribute('data-header', `Todo Items as of ${formattedDate}`);
+    
+    // Display filtered todos
+    filteredTodos.forEach(todo => {
+        // Your existing todo display code
+        const div = document.createElement('div');
+        div.className = 'todo-item';
+        // ... rest of your todo display code
+    });
+}
+
+// Fix the auth state observer
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        loginSection.style.display = 'none';
+        signupSection.style.display = 'none';
+        todoSection.style.display = 'block';
+        userEmailSpan.textContent = user.email;
+        loadTodos(); // This will now properly load and display todos
+    } else {
+        loginSection.style.display = 'block';
+        signupSection.style.display = 'none';
+        todoSection.style.display = 'none';
+    }
+});
  

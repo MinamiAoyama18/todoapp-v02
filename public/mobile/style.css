@@ -542,22 +542,21 @@ button:active {
 }
 
 .multi-select {
-    background: white;
+    width: 100%;
+    min-height: 100px;
+    padding: 8px;
     border: 1px solid #ddd;
     border-radius: 8px;
+    background-color: white;
+}
+
+.multi-select option {
     padding: 8px;
-    max-height: 150px;
-    overflow-y: auto;
+    margin: 2px 0;
+    border-radius: 4px;
 }
 
-.multi-select label {
-    display: block;
-    padding: 5px;
-    margin: 0;
-    font-weight: normal;
-    cursor: pointer;
-}
-
-.multi-select input[type="checkbox"] {
-    margin-right: 8px;
+.multi-select option:checked {
+    background-color: var(--primary-color);
+    color: white;
 }
