@@ -284,4 +284,33 @@ logoutButton.addEventListener('click', async () => {
         alert('Error logging out: ' + error.message);
     }
 });
+
+// Update the switch between login and signup handlers
+switchToSignup.addEventListener('click', () => {
+    console.log('Switching to signup');
+    loginSection.style.display = 'none';
+    signupSection.style.display = 'block';
+});
+
+switchToLogin.addEventListener('click', () => {
+    console.log('Switching to login');
+    loginSection.style.display = 'block';
+    signupSection.style.display = 'none';
+});
+
+// Add signup form handler
+signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+
+    try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        console.log('Signup successful');
+        // Auth state observer will handle the redirect to todo section
+    } catch (error) {
+        console.error('Signup error:', error);
+        alert(error.message);
+    }
+});
  
