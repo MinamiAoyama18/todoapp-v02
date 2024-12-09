@@ -85,6 +85,27 @@
                 <button type="submit">Add Todo</button>
             </form>
 
+            <!-- Add this after the todoForm and before todoList -->
+            <div class="filter-section">
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label>Filter by Categories</label>
+                        <div class="multi-select" id="categoryFilter">
+                            <!-- Categories will be added dynamically -->
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label>Filter by Progress</label>
+                        <div class="multi-select" id="progressFilter">
+                            <label><input type="checkbox" value="not started" checked> Not Started</label>
+                            <label><input type="checkbox" value="in progress" checked> In Progress</label>
+                            <label><input type="checkbox" value="complete" checked> Complete</label>
+                            <label><input type="checkbox" value="aborted" checked> Aborted</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="todoList">
                 <!-- Todos will be displayed here -->
             </div>

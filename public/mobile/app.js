@@ -441,4 +441,89 @@ function displayTodos() {
         statusSelect.addEventListener('change', (e) => updateTodoStatus(todo.docId, e.target.value));
     });
 }
+
+// Add these variables at the top with other declarations
+let activeFilters = {
+    categories: new Set(),
+    progress: new Set(['not started', 'in progress', 'complete', 'aborted'])
+};
+
+// Add this function to update category filters
+function updateCategoryFilters() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const categories = new Set();
+    
+    // Collect all unique categories from todos
+    allTodos.forEach(todo => categories.add(todo.category));
+    
+    // Update the filter checkboxes
+    categoryFilter.innerHTML = Array.from(categories).map(category => `
+        <label>
+            <input type="checkbox" value="${category}" checked>
+            ${category}
+        </label>
+    `).join('');
+    
+    // Initialize activeFilters.categories with all categories
+    activeFilters.categories = new Set(categories);
+    
+    // Add event listeners to checkboxes
+    categoryFilter.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                activeFilters.categories.add(checkbox.value);
+            } else {
+                activeFilters.categories.delete(checkbox.value);
+            }
+            filterAndDisplayTodos();
+        });
+    });
+}
+
+// Add event listeners for progress filters
+document.getElementById('progressFilter').querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+            activeFilters.progress.add(checkbox.value);
+        } else {
+            activeFilters.progress.delete(checkbox.value);
+        }
+        filterAndDisplayTodos();
+    });
+});
+
+// Add this function to filter todos
+function filterAndDisplayTodos() {
+    const filteredTodos = allTodos.filter(todo => 
+        activeFilters.categories.has(todo.category) &&
+        activeFilters.progress.has(todo.status)
+    );
+    
+    displayTodos(filteredTodos);
+}
+
+// Modify the loadTodos function to use filtering
+function loadTodos() {
+    const todosQuery = query(
+        collection(db, 'todos'),
+        where('userId', '==', auth.currentUser.uid),
+        orderBy('timestamp', 'desc')
+    );
+
+    onSnapshot(todosQuery, (snapshot) => {
+        allTodos = snapshot.docs.map(doc => ({
+            ...doc.data(),
+            docId: doc.id
+        }));
+        
+        updateCategoryFilters();
+        filterAndDisplayTodos();
+    });
+}
+
+// Update the displayTodos function to accept filtered todos
+function displayTodos(todos = allTodos) {
+    // ... rest of your existing displayTodos code ...
+    // Just use 'todos' instead of 'allTodos' when displaying
+}
  

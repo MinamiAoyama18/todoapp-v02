@@ -515,3 +515,49 @@ button:active {
     color: #333;       /* Dark gray/black color */
     font-weight: normal;
 }
+
+.filter-section {
+    margin: 10px 0 20px 0;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.filter-container {
+    display: flex;
+    gap: 15px;
+}
+
+.filter-group {
+    flex: 1;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #666;
+}
+
+.multi-select {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.multi-select label {
+    display: block;
+    padding: 5px;
+    margin: 0;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.multi-select input[type="checkbox"] {
+    margin-right: 8px;
+}
