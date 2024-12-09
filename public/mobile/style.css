@@ -494,3 +494,10 @@ button:active {
 .confirm-btn {
     background-color: var(--primary-color);
 }
+
+/* Add this to your existing styles */
+.version-text {
+    font-size: 0.8em;  /* Smaller font size */
+    color: #333;       /* Dark gray/black color */
+    font-weight: normal;
+}
