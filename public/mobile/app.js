@@ -145,10 +145,14 @@ function getDeadlineText(deadlineDate) {
 
 // Update the displayTodos function
 function displayTodos(todos) {
+    const todoList = document.getElementById('todoList');
+    const todoListHeader = document.getElementById('todoListHeader');
     todoList.innerHTML = '';
+    
+    // Update the header
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
-    todoList.setAttribute('data-header', `Todo Items as of ${formattedDate}`);
+    todoListHeader.textContent = `Todo Items as of ${formattedDate}`;
 
     todos.forEach(todo => {
         const div = document.createElement('div');
