@@ -110,29 +110,13 @@ function loadTodos() {
 
     onSnapshot(todosQuery, (snapshot) => {
         console.log('Received todos snapshot, size:', snapshot.size);
-        console.log('Current user ID:', auth.currentUser.uid);
-        
-        snapshot.forEach((doc) => {
-            console.log('Todo document:', doc.id, doc.data());
-        });
-
         todoList.innerHTML = '';
         
-        // Get the timestamp of the most recent todo
-        let latestTimestamp = new Date();
-        if (snapshot.docs.length > 0) {
-            latestTimestamp = snapshot.docs[0].data().timestamp.toDate();
-        }
-        
-        // Format the timestamp in local timezone
+        // Format today's date correctly as YYYY-MM-DD
         const today = new Date();
-        const formattedDate = today.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
-        }).split('/').reverse().join('-'); // Convert MM/DD/YYYY to YYYY-MM-DD
+        const formattedDate = today.toISOString().split('T')[0];
         
-        todoList.setAttribute('data-header', `To Do Items as of ${formattedDate}`);
+        todoList.setAttribute('data-header', `Todo Items as of ${formattedDate}`);
 
         snapshot.forEach((docSnapshot) => {
             const todo = docSnapshot.data();
@@ -143,6 +127,9 @@ function loadTodos() {
             const colorScheme = statusColors[todo.status];
             div.style.backgroundColor = colorScheme.bg;
             div.style.color = colorScheme.text;
+            
+            // Calculate deadline text
+            const deadlineText = getDeadlineText(todo.deadline);
             
             div.innerHTML = `
                 <div class="todo-line-1">
@@ -156,7 +143,7 @@ function loadTodos() {
                 </div>
                 <div class="todo-line-2">
                     <span class="category-label">${todo.category}</span>
-                    <span class="deadline-label">By <span class="deadline-value">${todo.deadline}</span></span>
+                    <span class="deadline-label">${deadlineText}</span>
                     <button class="delete-btn" data-id="${docSnapshot.id}">Delete</button>
                 </div>
             `;
