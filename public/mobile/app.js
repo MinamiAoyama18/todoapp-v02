@@ -209,4 +209,16 @@ todoForm.addEventListener('submit', async (e) => {
         alert(error.message);
     }
 });
+
+// Logout handler
+logoutButton.addEventListener('click', async () => {
+    try {
+        await signOut(auth);
+        console.log('Logged out successfully');
+        // Auth state observer will handle the redirect
+    } catch (error) {
+        console.error('Logout error:', error);
+        alert('Error logging out: ' + error.message);
+    }
+});
  
