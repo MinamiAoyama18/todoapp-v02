@@ -236,6 +236,20 @@ button:active {
 
 .deadline-value {
     font-weight: 500;
+    color: var(--text-color);
+}
+
+/* Add these new styles for deadline states */
+.deadline-value.overdue {
+    color: #dc3545;  /* Red for overdue */
+}
+
+.deadline-value.last-day {
+    color: #ffc107;  /* Yellow for last day */
+}
+
+.deadline-value.upcoming {
+    color: #28a745;  /* Green for upcoming */
 }
 
 .delete-btn {

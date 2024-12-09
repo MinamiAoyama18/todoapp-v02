@@ -383,4 +383,75 @@ function darkenHSLColor(hslColor, amount) {
     
     return `hsl(${h}, ${s}%, ${l}%)`;
 }
+
+// Add this helper function for date calculations
+function getDeadlineText(deadlineDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    const deadline = new Date(deadlineDate);
+    deadline.setHours(0, 0, 0, 0);
+    
+    const diffTime = deadline - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) {
+        return `By ${deadlineDate} (Last Day)`;
+    } else if (diffDays > 0) {
+        return `By ${deadlineDate} (${diffDays} days)`;
+    } else {
+        return `By ${deadlineDate} (${Math.abs(diffDays)} days overdue)`;
+    }
+}
+
+// Modify the displayTodos function
+function displayTodos() {
+    const todoList = document.getElementById('todoList');
+    if (!todoList) return;
+
+    // Format today's date as YYYY-MM-DD
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    
+    // Set the header with correct date format
+    todoList.setAttribute('data-header', `Todo Items as of ${formattedDate}`);
+    
+    todoList.innerHTML = '';
+    
+    allTodos.forEach(todo => {
+        const div = document.createElement('div');
+        div.className = 'todo-item';
+        
+        const deadlineText = getDeadlineText(todo.deadline);
+        
+        div.innerHTML = `
+            <div class="todo-line-1">
+                <div class="description ${todo.status === 'complete' ? 'completed' : ''}">
+                    ${todo.description}
+                </div>
+                <select class="status-select-item" data-docid="${todo.docId}">
+                    <option value="not started" ${todo.status === 'not started' ? 'selected' : ''}>Not Started</option>
+                    <option value="in progress" ${todo.status === 'in progress' ? 'selected' : ''}>In Progress</option>
+                    <option value="complete" ${todo.status === 'complete' ? 'selected' : ''}>Complete</option>
+                    <option value="aborted" ${todo.status === 'aborted' ? 'selected' : ''}>Aborted</option>
+                </select>
+            </div>
+            <div class="todo-line-2">
+                <span class="category-label">
+                    <span class="category-value">${todo.category}</span>
+                </span>
+                <span class="deadline-label">
+                    <span class="deadline-value">${deadlineText}</span>
+                </span>
+                <button class="delete-btn" onclick="deleteTodo('${todo.docId}')">Delete</button>
+            </div>
+        `;
+        
+        todoList.appendChild(div);
+        
+        // Add event listener for status change
+        const statusSelect = div.querySelector('.status-select-item');
+        statusSelect.addEventListener('change', (e) => updateTodoStatus(todo.docId, e.target.value));
+    });
+}
  
