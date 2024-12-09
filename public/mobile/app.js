@@ -6,6 +6,14 @@ import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, ge
 // Declare global variables
 let allTodos = [];
 
+// Status colors definition
+const statusColors = {
+    'not started': { bg: 'hsl(40, 100%, 95%)', text: '#333333' },  // Light orange
+    'in progress': { bg: 'hsl(210, 100%, 95%)', text: '#333333' }, // Light blue
+    'complete': { bg: 'hsl(120, 40%, 90%)', text: '#1B5E20' },     // Light green
+    'aborted': { bg: 'hsl(350, 100%, 95%)', text: '#880E4F' }      // Light pink
+};
+
 // Firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyBOZ7XL-tnVms2kvakMV7le6oIt2oFOgvY",
@@ -149,4 +157,56 @@ categoryFilter.addEventListener('change', filterAndDisplayTodos);
 progressFilter.addEventListener('change', filterAndDisplayTodos);
 
 // Rest of your existing code...
+
+function setupTodoItemListeners(div, todo) {
+    // Status change handler
+    const statusSelect = div.querySelector('.status-select-item');
+    statusSelect.addEventListener('change', async () => {
+        try {
+            const newStatus = statusSelect.value;
+            const docRef = doc(db, 'todos', todo.docId);
+            await updateDoc(docRef, { status: newStatus });
+        } catch (error) {
+            console.error('Error updating status:', error);
+            statusSelect.value = todo.status;
+        }
+    });
+
+    // Delete handler
+    const deleteBtn = div.querySelector('.delete-btn');
+    deleteBtn.addEventListener('click', async () => {
+        try {
+            if (confirm('Are you sure you want to delete this todo?')) {
+                const docRef = doc(db, 'todos', todo.docId);
+                await deleteDoc(docRef);
+            }
+        } catch (error) {
+            console.error('Error deleting todo:', error);
+        }
+    });
+}
+
+// Todo form submission
+todoForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const description = document.getElementById('description').value;
+    const category = document.getElementById('category').value;
+    const status = document.getElementById('status').value;
+    const deadline = document.getElementById('deadline').value;
+
+    try {
+        await addDoc(collection(db, 'todos'), {
+            userId: auth.currentUser.uid,
+            description,
+            category,
+            status,
+            deadline,
+            timestamp: new Date()
+        });
+        todoForm.reset();
+    } catch (error) {
+        console.error('Error adding todo:', error);
+        alert(error.message);
+    }
+});
  
