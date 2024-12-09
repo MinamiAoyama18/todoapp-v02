@@ -69,6 +69,13 @@ auth.onAuthStateChanged((user) => {
         userEmailSpan.textContent = user.email;
         loadTodos();
     } else {
+        // Clear any existing data
+        todoList.innerHTML = '';
+        allTodos = [];
+        // Reset forms
+        loginForm.reset();
+        todoForm.reset();
+        // Show login section
         loginSection.style.display = 'block';
         signupSection.style.display = 'none';
         todoSection.style.display = 'none';
@@ -213,9 +220,18 @@ todoForm.addEventListener('submit', async (e) => {
 // Logout handler
 logoutButton.addEventListener('click', async () => {
     try {
+        // Clear any existing data first
+        todoList.innerHTML = '';
+        allTodos = [];
+        // Sign out
         await signOut(auth);
         console.log('Logged out successfully');
-        // Auth state observer will handle the redirect
+        // Force UI update
+        loginSection.style.display = 'block';
+        signupSection.style.display = 'none';
+        todoSection.style.display = 'none';
+        // Reload the page to ensure clean state
+        window.location.reload();
     } catch (error) {
         console.error('Logout error:', error);
         alert('Error logging out: ' + error.message);
