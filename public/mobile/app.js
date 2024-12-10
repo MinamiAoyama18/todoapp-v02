@@ -313,4 +313,51 @@ signupForm.addEventListener('submit', async (e) => {
         alert(error.message);
     }
 });
+
+// Update the loadCategories function
+async function loadCategories() {
+    console.log('Loading categories...');
+    
+    try {
+        // Get all todos to extract categories
+        const todosRef = collection(db, 'todos');
+        const q = query(todosRef, where('userId', '==', auth.currentUser.uid));
+        const querySnapshot = await getDocs(q);
+        
+        // Create a Set of unique categories
+        const categories = new Set();
+        
+        querySnapshot.forEach((doc) => {
+            const category = doc.data().category;
+            if (category) categories.add(category);
+        });
+
+        // Update the select element with just the default option first
+        categorySelect.innerHTML = `
+            <option value="">Select Category</option>
+        `;
+        
+        // Add existing categories
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            categorySelect.appendChild(option);
+        });
+
+        // Always add the "Add New Category" option at the end
+        const newOption = document.createElement('option');
+        newOption.value = "add-new";
+        newOption.textContent = "+ Add New Category";
+        categorySelect.appendChild(newOption);
+
+    } catch (error) {
+        console.error('Error loading categories:', error);
+        // Even if there's an error, ensure the "Add New Category" option is available
+        categorySelect.innerHTML = `
+            <option value="">Select Category</option>
+            <option value="add-new">+ Add New Category</option>
+        `;
+    }
+}
  
