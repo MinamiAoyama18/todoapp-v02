@@ -26,35 +26,35 @@
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label data-translate="password">Password</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                <button type="submit" class="login-btn">Login</button>
+                <button type="submit" class="login-btn" data-translate="loginButton">Login</button>
             </form>
             <div class="divider">
-                <span>OR</span>
+                <span data-translate="or">OR</span>
             </div>
-            <button type="button" id="switchToSignup" class="signup-btn">Sign Up</button>
+            <button type="button" id="switchToSignup" class="signup-btn" data-translate="signUp">Sign Up</button>
         </div>
 
         <!-- Signup Form -->
         <div id="signupSection" style="display: none;">
-            <h2>📱 Mobile Sign Up</h2>
+            <h2 data-translate="signUpTitle">📱 Mobile Sign Up</h2>
             <form id="signupForm">
                 <div class="form-group">
-                    <label for="signupEmail">Email</label>
+                    <label data-translate="email">Email</label>
                     <input type="email" id="signupEmail" name="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="signupPassword">Password</label>
+                    <label data-translate="password">Password</label>
                     <input type="password" id="signupPassword" name="password" required>
                 </div>
-                <button type="submit" class="signup-btn">Sign Up</button>
+                <button type="submit" class="signup-btn" data-translate="signUp">Sign Up</button>
             </form>
             <div class="divider">
-                <span>OR</span>
+                <span data-translate="or">OR</span>
             </div>
-            <button type="button" id="switchToLogin" class="login-btn">Back to Login</button>
+            <button type="button" id="switchToLogin" class="login-btn" data-translate="backToLogin">Back to Login</button>
         </div>
 
         <!-- Todo Section -->
@@ -85,7 +85,7 @@
                        id="deadline" 
                        required 
                        class="deadline-input" 
-                       data-placeholder="chooseDeadline">
+                       data-translate-placeholder="chooseDeadline">
                 <button type="submit" data-translate="addTodo">Add Todo</button>
             </form>
 

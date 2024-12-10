@@ -54,6 +54,7 @@ let currentLang = 'en';
 
 function updateLanguage(lang) {
     currentLang = lang;
+    
     // Update text content
     document.querySelectorAll('[data-translate]').forEach(element => {
         const key = element.getAttribute('data-translate');
@@ -64,6 +65,17 @@ function updateLanguage(lang) {
     document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
         const key = element.getAttribute('data-translate-placeholder');
         element.placeholder = translations[lang][key];
+        if (element.hasAttribute('data-placeholder')) {
+            element.setAttribute('data-placeholder', translations[lang][key]);
+        }
+    });
+    
+    // Update select options
+    document.querySelectorAll('select').forEach(select => {
+        select.querySelectorAll('option[data-translate]').forEach(option => {
+            const key = option.getAttribute('data-translate');
+            option.textContent = translations[lang][key];
+        });
     });
     
     // Update flag active states
