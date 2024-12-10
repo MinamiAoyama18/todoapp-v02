@@ -180,36 +180,11 @@ function filterAndDisplayTodos() {
     displayTodos(filteredTodos);
 }
 
-// Add this helper function for deadline calculation
-function getDeadlineText(deadlineDate) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time to start of day
-    
-    const deadline = new Date(deadlineDate);
-    deadline.setHours(0, 0, 0, 0);
-    
-    const diffTime = deadline - today;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 0) {
-        return `By ${deadlineDate} (Last Day)`;
-    } else if (diffDays > 0) {
-        return `By ${deadlineDate} (${diffDays} days)`;
-    } else {
-        return `By ${deadlineDate} (${Math.abs(diffDays)} days overdue)`;
-    }
-}
-
-// Update the displayTodos function
 function displayTodos(todos) {
-    const todoList = document.getElementById('todoList');
-    const todoListHeader = document.getElementById('todoListHeader');
     todoList.innerHTML = '';
-    
-    // Update the header
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0];
-    todoListHeader.textContent = `Todo Items as of ${formattedDate}`;
+    todoList.setAttribute('data-header', `Todo Items as of ${formattedDate}`);
 
     todos.forEach(todo => {
         const div = document.createElement('div');
@@ -218,37 +193,54 @@ function displayTodos(todos) {
         div.style.backgroundColor = colorScheme.bg;
         div.style.color = colorScheme.text;
         
-        const deadlineText = getDeadlineText(todo.deadline);
-        
         div.innerHTML = `
             <div class="todo-line-1">
                 <span class="description ${['complete', 'aborted'].includes(todo.status) ? 'completed' : ''}">${todo.description}</span>
                 <select class="status-select-item">
-                    <option value="not started" ${todo.status === 'not started' ? 'selected' : ''}>Not Started</option>
-                    <option value="in progress" ${todo.status === 'in progress' ? 'selected' : ''}>In Progress</option>
-                    <option value="complete" ${todo.status === 'complete' ? 'selected' : ''}>Complete</option>
-                    <option value="aborted" ${todo.status === 'aborted' ? 'selected' : ''}>Aborted</option>
+                    <option value="not started" ${todo.status === 'not started' ? 'selected' : ''} data-translate="notStarted">Not Started</option>
+                    <option value="in progress" ${todo.status === 'in progress' ? 'selected' : ''} data-translate="inProgress">In Progress</option>
+                    <option value="complete" ${todo.status === 'complete' ? 'selected' : ''} data-translate="complete">Complete</option>
+                    <option value="aborted" ${todo.status === 'aborted' ? 'selected' : ''} data-translate="aborted">Aborted</option>
                 </select>
             </div>
             <div class="todo-line-2">
                 <span class="category-label">${todo.category}</span>
-                <span class="deadline-label">${deadlineText}</span>
-                <button class="delete-btn" data-id="${todo.docId}">Delete</button>
+                <span class="deadline-label">By ${todo.deadline}</span>
+                <button class="delete-btn" data-id="${todo.docId}" data-translate="delete">Delete</button>
             </div>
         `;
 
-        // Add darker background for category
-        const categoryLabel = div.querySelector('.category-label');
-        categoryLabel.style.backgroundColor = darkenHSLColor(colorScheme.bg, 5);
-        categoryLabel.style.padding = '3px 12px';
-        categoryLabel.style.borderRadius = '4px';
-        categoryLabel.style.display = 'inline-block';
-        categoryLabel.style.textAlign = 'center';
+        // Add status change handler
+        const statusSelect = div.querySelector('.status-select-item');
+        statusSelect.addEventListener('change', async () => {
+            try {
+                const newStatus = statusSelect.value;
+                const docRef = doc(db, 'todos', todo.docId);
+                await updateDoc(docRef, { status: newStatus });
+            } catch (error) {
+                console.error('Error updating status:', error);
+                statusSelect.value = todo.status;
+            }
+        });
 
-        // Add event listeners
-        setupTodoItemListeners(div, todo);
+        // Add delete handler
+        const deleteBtn = div.querySelector('.delete-btn');
+        deleteBtn.addEventListener('click', async () => {
+            try {
+                if (confirm('Are you sure you want to delete this todo?')) {
+                    const docRef = doc(db, 'todos', todo.docId);
+                    await deleteDoc(docRef);
+                }
+            } catch (error) {
+                console.error('Error deleting todo:', error);
+            }
+        });
+
         todoList.appendChild(div);
     });
+
+    // Update translations for the newly added elements
+    updateLanguage(currentLang);
 }
 
 // Add the helper function for darkening colors
