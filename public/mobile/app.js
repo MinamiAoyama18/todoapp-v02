@@ -3,6 +3,9 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebas
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js';
 import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, getDocs, deleteDoc, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
+// Import translations
+import translations from './translations.js';
+
 // Declare global variables
 let allTodos = [];
 
@@ -45,6 +48,41 @@ const switchToLogin = document.getElementById('switchToLogin');
 const categoryFilter = document.getElementById('categoryFilter');
 const progressFilter = document.getElementById('progressFilter');
 const categorySelect = document.getElementById('category');
+
+// Add language handling
+let currentLang = 'en';
+
+function updateLanguage(lang) {
+    currentLang = lang;
+    // Update text content
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.getAttribute('data-translate');
+        element.textContent = translations[lang][key];
+    });
+    
+    // Update placeholders
+    document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-translate-placeholder');
+        element.placeholder = translations[lang][key];
+    });
+    
+    // Update flag active states
+    document.querySelectorAll('.flag-icon').forEach(flag => {
+        flag.classList.toggle('active', flag.id.startsWith(lang));
+    });
+
+    // Update dynamic content
+    if (categorySelect) {
+        const defaultOption = categorySelect.querySelector('option[value=""]');
+        if (defaultOption) defaultOption.textContent = translations[lang].selectCategory;
+        const addNewOption = categorySelect.querySelector('option[value="add-new"]');
+        if (addNewOption) addNewOption.textContent = translations[lang].addNewCategory;
+    }
+}
+
+// Add language switch event listeners
+document.getElementById('en-flag').addEventListener('click', () => updateLanguage('en'));
+document.getElementById('zh-flag').addEventListener('click', () => updateLanguage('zh'));
 
 // Authentication logic
 loginForm.addEventListener('submit', async (e) => {

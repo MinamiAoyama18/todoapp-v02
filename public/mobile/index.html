@@ -10,15 +10,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="language-selector">
+        <img src="https://flagcdn.com/w40/us.png" alt="English" id="en-flag" class="flag-icon active">
+        <img src="https://flagcdn.com/w40/cn.png" alt="中文" id="zh-flag" class="flag-icon">
+    </div>
     <div class="container-mobile">
         <!-- Login Form -->
         <div id="loginSection">
-            <h2>
+            <h2 data-translate="login">
                 📱 Todo Mobile Login <span class="version-text">(v02)</span>
             </h2>
             <form id="loginForm">
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label data-translate="email">Email</label>
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-group">
@@ -56,54 +60,51 @@
         <!-- Todo Section -->
         <div id="todoSection" style="display:none;">
             <div class="header-section">
-                <h2 class="mobile-title">📱 Mobile Todo List</h2>
+                <h2 class="mobile-title" data-translate="todoList">📱 Mobile Todo List</h2>
                 <div class="user-info">
                     <span id="userEmail"></span>
-                    <button id="logoutButton">Logout</button>
+                    <button id="logoutButton" data-translate="logout">Logout</button>
                 </div>
             </div>
             
             <form id="todoForm">
-                <input type="text" id="description" placeholder="New Todo" required>
+                <input type="text" id="description" data-translate-placeholder="newTodo" placeholder="New Todo" required>
                 <div class="form-row">
                     <select id="category" required class="category-select">
-                        <option value="">Select Category</option>
+                        <option value="" data-translate="selectCategory">Select Category</option>
                     </select>
                     <select id="status" class="status-select">
-                        <option value="">Select Progress</option>
-                        <option value="not started">Not Started</option>
-                        <option value="in progress">In Progress</option>
-                        <option value="complete" disabled>Complete</option>
-                        <option value="aborted" disabled>Aborted</option>
+                        <option value="" data-translate="selectProgress">Select Progress</option>
+                        <option value="not started" data-translate="notStarted">Not Started</option>
+                        <option value="in progress" data-translate="inProgress">In Progress</option>
+                        <option value="complete" data-translate="complete" disabled>Complete</option>
+                        <option value="aborted" data-translate="aborted" disabled>Aborted</option>
                     </select>
                 </div>
                 <input type="date" 
                        id="deadline" 
                        required 
                        class="deadline-input" 
-                       data-placeholder="Choose Deadline">
-                <button type="submit">Add Todo</button>
+                       data-placeholder="chooseDeadline">
+                <button type="submit" data-translate="addTodo">Add Todo</button>
             </form>
 
-            <!-- Add the todo list header here -->
-            <div id="todoListHeader" class="todo-list-header"></div>
-
-            <!-- Then the filters -->
+            <!-- Filter section -->
             <div class="filter-section">
                 <div class="filter-container">
                     <div class="filter-group">
-                        <label>Filter by Categories</label>
+                        <label data-translate="selectCategory">Filter by Categories</label>
                         <select id="categoryFilter" multiple class="multi-select">
                             <!-- Categories will be added dynamically -->
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label>Filter by Progress</label>
+                        <label data-translate="selectProgress">Filter by Progress</label>
                         <select id="progressFilter" multiple class="multi-select">
-                            <option value="not started" selected>Not Started</option>
-                            <option value="in progress" selected>In Progress</option>
-                            <option value="complete" selected>Complete</option>
-                            <option value="aborted" selected>Aborted</option>
+                            <option value="not started" selected data-translate="notStarted">Not Started</option>
+                            <option value="in progress" selected data-translate="inProgress">In Progress</option>
+                            <option value="complete" selected data-translate="complete">Complete</option>
+                            <option value="aborted" selected data-translate="aborted">Aborted</option>
                         </select>
                     </div>
                 </div>
