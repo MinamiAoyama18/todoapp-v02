@@ -4,7 +4,7 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, si
 import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, getDocs, deleteDoc, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 
 // Import translations
-import translations from './translations.js';
+import { translations } from './translations.js';
 
 // Declare global variables
 let allTodos = [];
@@ -83,6 +83,11 @@ function updateLanguage(lang) {
 // Add language switch event listeners
 document.getElementById('en-flag').addEventListener('click', () => updateLanguage('en'));
 document.getElementById('zh-flag').addEventListener('click', () => updateLanguage('zh'));
+
+// Initial language update
+document.addEventListener('DOMContentLoaded', () => {
+    updateLanguage(currentLang);
+});
 
 // Authentication logic
 loginForm.addEventListener('submit', async (e) => {
