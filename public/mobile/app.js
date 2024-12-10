@@ -44,6 +44,7 @@ const signupForm = document.getElementById('signupForm');
 const switchToLogin = document.getElementById('switchToLogin');
 const categoryFilter = document.getElementById('categoryFilter');
 const progressFilter = document.getElementById('progressFilter');
+const categorySelect = document.getElementById('category');
 
 // Authentication logic
 loginForm.addEventListener('submit', async (e) => {
@@ -68,6 +69,7 @@ auth.onAuthStateChanged((user) => {
         todoSection.style.display = 'block';
         userEmailSpan.textContent = user.email;
         loadTodos();
+        loadCategories();
     } else {
         // Clear any existing data
         todoList.innerHTML = '';
@@ -319,7 +321,13 @@ async function loadCategories() {
     console.log('Loading categories...');
     
     try {
-        // Get all todos to extract categories
+        // First, set the default options
+        categorySelect.innerHTML = `
+            <option value="">Select Category</option>
+            <option value="add-new">+ Add New Category</option>
+        `;
+
+        // Then get existing categories
         const todosRef = collection(db, 'todos');
         const q = query(todosRef, where('userId', '==', auth.currentUser.uid));
         const querySnapshot = await getDocs(q);
@@ -332,32 +340,50 @@ async function loadCategories() {
             if (category) categories.add(category);
         });
 
-        // Update the select element with just the default option first
-        categorySelect.innerHTML = `
-            <option value="">Select Category</option>
-        `;
-        
-        // Add existing categories
+        // Add existing categories before the "Add New Category" option
+        const addNewOption = categorySelect.querySelector('option[value="add-new"]');
         categories.forEach(category => {
             const option = document.createElement('option');
             option.value = category;
             option.textContent = category;
-            categorySelect.appendChild(option);
+            categorySelect.insertBefore(option, addNewOption);
         });
-
-        // Always add the "Add New Category" option at the end
-        const newOption = document.createElement('option');
-        newOption.value = "add-new";
-        newOption.textContent = "+ Add New Category";
-        categorySelect.appendChild(newOption);
 
     } catch (error) {
         console.error('Error loading categories:', error);
-        // Even if there's an error, ensure the "Add New Category" option is available
+        // Ensure default options are available even if there's an error
         categorySelect.innerHTML = `
             <option value="">Select Category</option>
             <option value="add-new">+ Add New Category</option>
         `;
     }
 }
+
+// Add category change handler
+categorySelect.addEventListener('change', async function(e) {
+    if (e.target.value === 'add-new') {
+        const newCategory = prompt('Enter new category name:');
+        if (newCategory) {
+            try {
+                // Add the new category to the select element
+                const option = document.createElement('option');
+                option.value = newCategory;
+                option.textContent = newCategory;
+                
+                // Insert before the "Add New Category" option
+                const addNewOption = categorySelect.querySelector('option[value="add-new"]');
+                categorySelect.insertBefore(option, addNewOption);
+                
+                // Select the new category
+                categorySelect.value = newCategory;
+            } catch (error) {
+                console.error('Error adding category:', error);
+                alert('Error adding category: ' + error.message);
+                categorySelect.value = '';
+            }
+        } else {
+            categorySelect.value = '';
+        }
+    }
+});
  
