@@ -90,6 +90,33 @@ function updateLanguage(lang) {
         const addNewOption = categorySelect.querySelector('option[value="add-new"]');
         if (addNewOption) addNewOption.textContent = translations[lang].addNewCategory;
     }
+
+    // Update item counts in filters
+    document.querySelectorAll('.filter-group select').forEach(select => {
+        const count = select.selectedOptions.length;
+        const label = select.previousElementSibling;
+        const originalText = label.getAttribute('data-original-text') || label.textContent;
+        label.setAttribute('data-original-text', originalText);
+        label.textContent = `${translations[lang][originalText]} (${count} ${translations[lang].items})`;
+    });
+
+    // Update deadline label
+    document.querySelectorAll('[data-translate-label]').forEach(element => {
+        const key = element.getAttribute('data-translate-label');
+        if (element.type === 'date') {
+            element.addEventListener('change', function() {
+                if (this.value) {
+                    this.setAttribute('data-content', 
+                        `${translations[currentLang][key]}: ${this.value}`);
+                }
+            });
+        }
+    });
+
+    // Try to set calendar language if browser supports it
+    document.querySelectorAll('input[type="date"]').forEach(input => {
+        input.setAttribute('lang', lang);
+    });
 }
 
 // Add language switch event listeners

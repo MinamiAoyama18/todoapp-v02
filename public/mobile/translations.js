@@ -25,7 +25,14 @@ export const translations = {
         daysOverdue: "days overdue",
         daysLeft: "days",
         lastDay: "Last Day",
-        by: "By"
+        by: "By",
+        items: "items",
+        deadline: "Deadline",
+        calendar: {
+            month: "Month",
+            year: "Year",
+            day: "Day"
+        }
     },
     zh: {
         login: "移动端登录",
@@ -53,6 +60,13 @@ export const translations = {
         daysOverdue: "天已逾期",
         daysLeft: "天",
         lastDay: "最后一天",
-        by: "截止日期"
+        by: "截止日期",
+        items: "项",
+        deadline: "截止日期",
+        calendar: {
+            month: "月",
+            year: "年",
+            day: "日"
+        }
     }
 }; 
