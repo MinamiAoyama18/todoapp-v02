@@ -355,6 +355,7 @@ button:active {
     margin-bottom: 8px;
     background-color: white;
     cursor: pointer;
+    position: relative;
 }
 
 .deadline-input:not(:valid) {
@@ -368,12 +369,16 @@ button:active {
     padding: 12px;
 }
 
-.deadline-input:valid::before {
-    content: attr(data-content);
+.deadline-input:valid {
     color: #666;
+    padding-left: 100px;
+}
+
+.deadline-input:valid::before {
+    content: attr(data-translate-label);
     position: absolute;
-    padding: 12px;
-    width: auto;
+    left: 12px;
+    color: #666;
 }
 
 /* Hide the default calendar icon */
