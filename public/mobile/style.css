@@ -81,9 +81,9 @@ button:active {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 }
 
 .todo-item input[type="checkbox"] {
@@ -308,13 +308,13 @@ button:active {
 /* Form styling updates */
 #todoForm {
     margin-top: 5px;
-    background-color: rgba(248, 249, 250, 0.8);
+    background-color: rgba(248, 249, 250, 0.6);
     padding: 15px;
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     margin-bottom: 20px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 }
 
 #description {
@@ -423,7 +423,7 @@ button:active {
     padding: 8px 25px 8px 10px;
     border-radius: 4px;
     border: 1px solid #ddd;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.7);
     font-size: 16px;
     cursor: pointer;
     appearance: none;
@@ -529,12 +529,12 @@ button:active {
 
 .filter-section {
     margin: 10px 0 20px 0;
-    background-color: rgba(248, 249, 250, 0.8);
+    background-color: rgba(248, 249, 250, 0.6);
     padding: 15px;
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 }
 
 .filter-container {
@@ -605,4 +605,9 @@ button:active {
 
 .flag-icon:hover {
     opacity: 0.8;
+}
+
+/* Add text shadow to improve readability */
+.description, .category-label, .deadline-label {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
