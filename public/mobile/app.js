@@ -142,10 +142,15 @@ document.addEventListener('DOMContentLoaded', () => {
 // Authentication logic
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
+    const emailOrNickname = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    
+    // Simple email validation
+    const isEmail = emailOrNickname.includes('@');
+    const loginId = isEmail ? emailOrNickname : `${emailOrNickname}@yourdomain.com`;
+    
     try {
-        await signInWithEmailAndPassword(auth, email, password);
+        await signInWithEmailAndPassword(auth, loginId, password);
         console.log('Login successful');
     } catch (error) {
         console.error('Login error:', error);
@@ -421,13 +426,16 @@ switchToLogin.addEventListener('click', () => {
 // Add signup form handler
 signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('signupEmail').value;
+    const emailOrNickname = document.getElementById('signupEmail').value;
     const password = document.getElementById('signupPassword').value;
+    
+    // Simple email validation
+    const isEmail = emailOrNickname.includes('@');
+    const loginId = isEmail ? emailOrNickname : `${emailOrNickname}@yourdomain.com`;
 
     try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        await createUserWithEmailAndPassword(auth, loginId, password);
         console.log('Signup successful');
-        // Auth state observer will handle the redirect to todo section
     } catch (error) {
         console.error('Signup error:', error);
         alert(error.message);
