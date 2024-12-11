@@ -1,7 +1,7 @@
 export const translations = {
     en: {
         login: "Mobile Login",
-        email: "Email",
+        email: "Email / Nickname",
         password: "Password",
         loginButton: "Login",
         or: "OR",
@@ -40,7 +40,7 @@ export const translations = {
     },
     zh: {
         login: "移动端登录",
-        email: "邮箱",
+        email: "邮箱 / 昵称",
         password: "密码",
         loginButton: "登录",
         or: "或者",
