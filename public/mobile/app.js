@@ -278,16 +278,26 @@ function displayTodos(todos) {
             <div class="todo-line-1">
                 <span class="description ${['complete', 'aborted'].includes(todo.status) ? 'completed' : ''}">${todo.description}</span>
                 <select class="status-select-item">
-                    <option value="not started" ${todo.status === 'not started' ? 'selected' : ''} data-translate="notStarted">Not Started</option>
-                    <option value="in progress" ${todo.status === 'in progress' ? 'selected' : ''} data-translate="inProgress">In Progress</option>
-                    <option value="complete" ${todo.status === 'complete' ? 'selected' : ''} data-translate="complete">Complete</option>
-                    <option value="aborted" ${todo.status === 'aborted' ? 'selected' : ''} data-translate="aborted">Aborted</option>
+                    <option value="not started" ${todo.status === 'not started' ? 'selected' : ''}>
+                        ${translations[currentLang].notStarted}
+                    </option>
+                    <option value="in progress" ${todo.status === 'in progress' ? 'selected' : ''}>
+                        ${translations[currentLang].inProgress}
+                    </option>
+                    <option value="complete" ${todo.status === 'complete' ? 'selected' : ''}>
+                        ${translations[currentLang].complete}
+                    </option>
+                    <option value="aborted" ${todo.status === 'aborted' ? 'selected' : ''}>
+                        ${translations[currentLang].aborted}
+                    </option>
                 </select>
             </div>
             <div class="todo-line-2">
                 <span class="category-label">${todo.category}</span>
                 <span class="deadline-label">${deadlineText}</span>
-                <button class="delete-btn" data-id="${todo.docId}" data-translate="delete">Delete</button>
+                <button class="delete-btn" data-id="${todo.docId}">
+                    ${translations[currentLang].delete}
+                </button>
             </div>
         `;
 
@@ -456,10 +466,10 @@ async function loadCategories() {
     console.log('Loading categories...');
     
     try {
-        // First, set the default options
+        // First, set the default options with translations
         categorySelect.innerHTML = `
-            <option value="">Select Category</option>
-            <option value="add-new">+ Add New Category</option>
+            <option value="" data-translate="selectCategory">${translations[currentLang].selectCategory}</option>
+            <option value="add-new" data-translate="addNewCategory">${translations[currentLang].addNewCategory}</option>
         `;
 
         // Then get existing categories
@@ -486,10 +496,10 @@ async function loadCategories() {
 
     } catch (error) {
         console.error('Error loading categories:', error);
-        // Ensure default options are available even if there's an error
+        // Ensure default options are available with translations
         categorySelect.innerHTML = `
-            <option value="">Select Category</option>
-            <option value="add-new">+ Add New Category</option>
+            <option value="" data-translate="selectCategory">${translations[currentLang].selectCategory}</option>
+            <option value="add-new" data-translate="addNewCategory">${translations[currentLang].addNewCategory}</option>
         `;
     }
 }
