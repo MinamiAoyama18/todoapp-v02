@@ -95,9 +95,8 @@ function updateLanguage(lang) {
     document.querySelectorAll('.filter-group select').forEach(select => {
         const count = select.selectedOptions.length;
         const label = select.previousElementSibling;
-        const originalText = label.getAttribute('data-original-text') || label.textContent;
-        label.setAttribute('data-original-text', originalText);
-        label.textContent = `${translations[lang][originalText]} (${count} ${translations[lang].items})`;
+        const key = label.getAttribute('data-translate');
+        label.textContent = `${translations[lang][key]} (${count} ${translations[lang].selectedItems})`;
     });
 
     // Update deadline label

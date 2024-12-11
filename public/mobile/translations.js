@@ -32,7 +32,10 @@ export const translations = {
             month: "Month",
             year: "Year",
             day: "Day"
-        }
+        },
+        filterByCategory: "Filter by Categories",
+        filterByProgress: "Filter by Progress",
+        selectedItems: "items selected"
     },
     zh: {
         login: "移动端登录",
@@ -67,6 +70,9 @@ export const translations = {
             month: "月",
             year: "年",
             day: "日"
-        }
+        },
+        filterByCategory: "按类别筛选",
+        filterByProgress: "按进度筛选",
+        selectedItems: "项已选择"
     }
 }; 
