@@ -4,6 +4,7 @@
     --secondary-color: #45a049;
     --text-color: #333;
     --background-color: #f4f4f4;
+    --todo-item-opacity: 1;
 }
 
 * {
@@ -80,6 +81,8 @@ button:active {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
+    background-color: rgba(var(--background-color-rgb), var(--todo-item-opacity));
+    backdrop-filter: blur(5px);
 }
 
 .todo-item input[type="checkbox"] {

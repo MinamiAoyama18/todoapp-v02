@@ -172,6 +172,20 @@ auth.onAuthStateChanged((user) => {
             : user.email;               // Show full email if it's an email login
         
         userEmailSpan.textContent = displayName;
+
+        // Set background image for specific users
+        if (displayName.toUpperCase() === 'NANA') {
+            document.body.style.backgroundImage = 'url("/images/NANA_background.jpeg")';
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
+            document.body.style.backgroundAttachment = 'fixed';
+            
+            // Add some transparency to todo items for better visibility
+            document.documentElement.style.setProperty('--todo-item-opacity', '0.95');
+        } else {
+            document.body.style.backgroundImage = 'none';
+            document.documentElement.style.setProperty('--todo-item-opacity', '1');
+        }
         
         // Apply stored language before loading todos
         updateLanguage(currentLang);
