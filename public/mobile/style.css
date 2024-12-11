@@ -371,7 +371,7 @@ button:active {
 
 .deadline-input:valid {
     color: #666;
-    padding-left: 100px;
+    padding-left: 120px;  /* Increased to accommodate Chinese text */
 }
 
 .deadline-input:valid::before {

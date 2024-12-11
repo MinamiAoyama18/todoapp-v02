@@ -103,19 +103,11 @@ function updateLanguage(lang) {
     document.querySelectorAll('[data-translate-label]').forEach(element => {
         const key = element.getAttribute('data-translate-label');
         if (element.type === 'date') {
-            // Update existing date if there is one
+            element.setAttribute('data-translate-label', translations[lang].deadline);
             if (element.value) {
                 element.setAttribute('data-content', 
                     `${translations[lang].deadlineFormat}${element.value}`);
             }
-            
-            // Update change listener
-            element.addEventListener('change', function() {
-                if (this.value) {
-                    this.setAttribute('data-content', 
-                        `${translations[currentLang].deadlineFormat}${this.value}`);
-                }
-            });
         }
     });
 
