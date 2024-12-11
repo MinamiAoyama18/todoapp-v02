@@ -165,7 +165,13 @@ auth.onAuthStateChanged((user) => {
         loginSection.style.display = 'none';
         signupSection.style.display = 'none';
         todoSection.style.display = 'block';
-        userEmailSpan.textContent = user.email;
+        
+        // Display only nickname if it's a nickname login
+        const displayName = user.email.includes('@yourdomain.com') 
+            ? user.email.split('@')[0]  // Show only the nickname part
+            : user.email;               // Show full email if it's an email login
+        
+        userEmailSpan.textContent = displayName;
         loadTodos();
         loadCategories();
     } else {
