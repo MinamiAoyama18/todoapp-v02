@@ -166,7 +166,8 @@ auth.onAuthStateChanged((user) => {
         userEmailSpan.textContent = displayName;
 
         // Set background image for specific users
-        if (displayName.toUpperCase() === 'NANA') {
+        const specialUsers = ['NANA', 'NANA18'];
+        if (specialUsers.includes(displayName.toUpperCase())) {
             document.body.style.backgroundImage = 'url("/images/NANA_background.jpeg")';
             document.body.style.backgroundSize = 'cover';
             document.body.style.backgroundPosition = 'center';
