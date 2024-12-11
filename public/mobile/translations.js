@@ -20,7 +20,12 @@ export const translations = {
         chooseDeadline: "Choose Deadline",
         addTodo: "Add Todo",
         logout: "Logout",
-        delete: "Delete"
+        delete: "Delete",
+        todoItemsAsOf: "Todo Items as of",
+        daysOverdue: "days overdue",
+        daysLeft: "days",
+        lastDay: "Last Day",
+        by: "By"
     },
     zh: {
         login: "移动端登录",
@@ -43,6 +48,11 @@ export const translations = {
         chooseDeadline: "选择截止日期",
         addTodo: "添加待办",
         logout: "退出登录",
-        delete: "删除"
+        delete: "删除",
+        todoItemsAsOf: "待办事项 截至",
+        daysOverdue: "天已逾期",
+        daysLeft: "天",
+        lastDay: "最后一天",
+        by: "截止日期"
     }
 }; 

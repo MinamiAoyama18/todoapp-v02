@@ -180,11 +180,39 @@ function filterAndDisplayTodos() {
     displayTodos(filteredTodos);
 }
 
+// Add this helper function for deadline calculation
+function getDeadlineText(deadlineDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    const deadline = new Date(deadlineDate);
+    deadline.setHours(0, 0, 0, 0);
+    
+    const diffTime = deadline - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) {
+        return `${translations[currentLang].by} ${deadlineDate} (${translations[currentLang].lastDay})`;
+    } else if (diffDays > 0) {
+        return `${translations[currentLang].by} ${deadlineDate} (${diffDays} ${translations[currentLang].daysLeft})`;
+    } else {
+        return `${translations[currentLang].by} ${deadlineDate} (${Math.abs(diffDays)} ${translations[currentLang].daysOverdue})`;
+    }
+}
+
+// Update the displayTodos function
 function displayTodos(todos) {
     todoList.innerHTML = '';
+    
+    // Format today's date in local time
     const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0];
-    todoList.setAttribute('data-header', `Todo Items as of ${formattedDate}`);
+    const formattedDate = today.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).split('/').reverse().join('-'); // Convert to YYYY-MM-DD
+
+    todoList.setAttribute('data-header', `${translations[currentLang].todoItemsAsOf} ${formattedDate}`);
 
     todos.forEach(todo => {
         const div = document.createElement('div');
@@ -192,6 +220,8 @@ function displayTodos(todos) {
         const colorScheme = statusColors[todo.status];
         div.style.backgroundColor = colorScheme.bg;
         div.style.color = colorScheme.text;
+        
+        const deadlineText = getDeadlineText(todo.deadline);
         
         div.innerHTML = `
             <div class="todo-line-1">
@@ -205,10 +235,18 @@ function displayTodos(todos) {
             </div>
             <div class="todo-line-2">
                 <span class="category-label">${todo.category}</span>
-                <span class="deadline-label">By ${todo.deadline}</span>
+                <span class="deadline-label">${deadlineText}</span>
                 <button class="delete-btn" data-id="${todo.docId}" data-translate="delete">Delete</button>
             </div>
         `;
+
+        // Add darker background for category
+        const categoryLabel = div.querySelector('.category-label');
+        categoryLabel.style.backgroundColor = darkenHSLColor(colorScheme.bg, 5);
+        categoryLabel.style.padding = '3px 12px';
+        categoryLabel.style.borderRadius = '4px';
+        categoryLabel.style.display = 'inline-block';
+        categoryLabel.style.textAlign = 'center';
 
         // Add status change handler
         const statusSelect = div.querySelector('.status-select-item');
