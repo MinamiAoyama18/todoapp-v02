@@ -308,13 +308,13 @@ button:active {
 /* Form styling updates */
 #todoForm {
     margin-top: 5px;
-    background-color: rgba(248, 249, 250, 0.3);
+    background-color: rgba(248, 249, 250, 0.15);
     padding: 15px;
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     margin-bottom: 20px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
 }
 
 #description {
@@ -616,7 +616,7 @@ button:active {
 #todoForm input[type="text"],
 #todoForm select,
 #todoForm .deadline-input {
-    background-color: rgba(255, 255, 255, 0.7);  /* Semi-transparent white */
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 /* Add text shadow for better readability */
