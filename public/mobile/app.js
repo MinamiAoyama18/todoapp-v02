@@ -312,9 +312,6 @@ function displayTodos(todos) {
 
         todoList.appendChild(div);
     });
-
-    // Update translations for the newly added elements
-    updateLanguage(currentLang);
 }
 
 // Add the helper function for darkening colors
