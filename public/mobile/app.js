@@ -123,6 +123,11 @@ function updateLanguage(lang) {
     document.querySelectorAll('input[type="date"]').forEach(input => {
         input.setAttribute('lang', lang);
     });
+
+    // Re-display todos with new language
+    if (auth.currentUser) {
+        filterAndDisplayTodos();
+    }
 }
 
 // Add language switch event listeners
@@ -245,6 +250,7 @@ function displayTodos(todos) {
         day: '2-digit'
     }).split('/').reverse().join('-');
 
+    // Make sure to use currentLang for the header text
     todoList.setAttribute('data-header', `${translations[currentLang].todoItemsAsOf} ${formattedDate}`);
 
     todos.forEach(todo => {
