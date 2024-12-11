@@ -366,7 +366,7 @@ button:active {
 }
 
 .deadline-input:valid::before {
-    content: "Deadline: ";
+    content: attr(data-content);
     color: #666;
     position: absolute;
     padding: 12px;

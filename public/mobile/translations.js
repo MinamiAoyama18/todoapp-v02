@@ -22,9 +22,7 @@ export const translations = {
         logout: "Logout",
         delete: "Delete",
         todoItemsAsOf: "Todo Items as of",
-        daysOverdue: "days overdue",
-        daysLeft: "days",
-        lastDay: "Last Day",
+        deadlineFormat: "Deadline: ",
         by: "By",
         items: "items",
         deadline: "Deadline",
@@ -35,7 +33,10 @@ export const translations = {
         },
         filterByCategory: "Filter by Categories",
         filterByProgress: "Filter by Progress",
-        selectedItems: "items selected"
+        selectedItems: "items selected",
+        daysLeft: "days",
+        daysOverdue: "days overdue",
+        lastDay: "Last Day"
     },
     zh: {
         login: "移动端登录",
@@ -60,9 +61,7 @@ export const translations = {
         logout: "退出登录",
         delete: "删除",
         todoItemsAsOf: "待办事项 截至",
-        daysOverdue: "天已逾期",
-        daysLeft: "天",
-        lastDay: "最后一天",
+        deadlineFormat: "截止日期：",
         by: "截止日期",
         items: "项",
         deadline: "截止日期",
@@ -73,6 +72,9 @@ export const translations = {
         },
         filterByCategory: "按类别筛选",
         filterByProgress: "按进度筛选",
-        selectedItems: "项已选择"
+        selectedItems: "项已选择",
+        daysLeft: "天",
+        daysOverdue: "天已逾期",
+        lastDay: "最后一天"
     }
 }; 

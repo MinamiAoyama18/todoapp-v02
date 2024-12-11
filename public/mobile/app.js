@@ -103,10 +103,17 @@ function updateLanguage(lang) {
     document.querySelectorAll('[data-translate-label]').forEach(element => {
         const key = element.getAttribute('data-translate-label');
         if (element.type === 'date') {
+            // Update existing date if there is one
+            if (element.value) {
+                element.setAttribute('data-content', 
+                    `${translations[lang].deadlineFormat}${element.value}`);
+            }
+            
+            // Update change listener
             element.addEventListener('change', function() {
                 if (this.value) {
                     this.setAttribute('data-content', 
-                        `${translations[currentLang][key]}: ${this.value}`);
+                        `${translations[currentLang].deadlineFormat}${this.value}`);
                 }
             });
         }
@@ -209,7 +216,7 @@ function filterAndDisplayTodos() {
 // Add this helper function for deadline calculation
 function getDeadlineText(deadlineDate) {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    today.setHours(0, 0, 0, 0);
     
     const deadline = new Date(deadlineDate);
     deadline.setHours(0, 0, 0, 0);
@@ -232,11 +239,11 @@ function displayTodos(todos) {
     
     // Format today's date in local time
     const today = new Date();
-    const formattedDate = today.toLocaleDateString('en-US', {
+    const formattedDate = today.toLocaleDateString(currentLang === 'zh' ? 'zh-CN' : 'en-US', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit'
-    }).split('/').reverse().join('-'); // Convert to YYYY-MM-DD
+    }).split('/').reverse().join('-');
 
     todoList.setAttribute('data-header', `${translations[currentLang].todoItemsAsOf} ${formattedDate}`);
 
