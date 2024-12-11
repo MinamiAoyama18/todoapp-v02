@@ -308,13 +308,13 @@ button:active {
 /* Form styling updates */
 #todoForm {
     margin-top: 5px;
-    background-color: rgba(248, 249, 250, 0.6);
+    background-color: rgba(248, 249, 250, 0.3);
     padding: 15px;
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     margin-bottom: 20px;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
 #description {
@@ -609,5 +609,20 @@ button:active {
 
 /* Add text shadow to improve readability */
 .description, .category-label, .deadline-label {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Update input fields to be slightly more opaque for readability */
+#todoForm input[type="text"],
+#todoForm select,
+#todoForm .deadline-input {
+    background-color: rgba(255, 255, 255, 0.7);  /* Semi-transparent white */
+}
+
+/* Add text shadow for better readability */
+#todoForm label,
+#todoForm input,
+#todoForm select,
+#todoForm button {
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
