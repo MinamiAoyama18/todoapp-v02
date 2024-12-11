@@ -242,15 +242,13 @@ function getDeadlineText(deadlineDate) {
 function displayTodos(todos) {
     todoList.innerHTML = '';
     
-    // Format today's date in local time
+    // Format today's date in YYYY-MM-DD format
     const today = new Date();
-    const formattedDate = today.toLocaleDateString(currentLang === 'zh' ? 'zh-CN' : 'en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-    }).split('/').reverse().join('-');
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
 
-    // Make sure to use currentLang for the header text
     todoList.setAttribute('data-header', `${translations[currentLang].todoItemsAsOf} ${formattedDate}`);
 
     todos.forEach(todo => {
@@ -287,7 +285,7 @@ function displayTodos(todos) {
         categoryLabel.style.display = 'inline-block';
         categoryLabel.style.textAlign = 'center';
 
-        // Add status change handler
+        // Add event handlers
         const statusSelect = div.querySelector('.status-select-item');
         statusSelect.addEventListener('change', async () => {
             try {
@@ -300,7 +298,6 @@ function displayTodos(todos) {
             }
         });
 
-        // Add delete handler
         const deleteBtn = div.querySelector('.delete-btn');
         deleteBtn.addEventListener('click', async () => {
             try {
