@@ -8,6 +8,7 @@ import { translations } from './translations.js';
 
 // Declare global variables
 let allTodos = [];
+let currentLang = localStorage.getItem('preferredLanguage') || 'en';
 
 // Status colors definition
 const statusColors = {
@@ -50,10 +51,9 @@ const progressFilter = document.getElementById('progressFilter');
 const categorySelect = document.getElementById('category');
 
 // Add language handling
-let currentLang = 'en';
-
 function updateLanguage(lang) {
     currentLang = lang;
+    localStorage.setItem('preferredLanguage', lang);
     
     // Update text content
     document.querySelectorAll('[data-translate]').forEach(element => {
@@ -172,6 +172,9 @@ auth.onAuthStateChanged((user) => {
             : user.email;               // Show full email if it's an email login
         
         userEmailSpan.textContent = displayName;
+        
+        // Apply stored language before loading todos
+        updateLanguage(currentLang);
         loadTodos();
         loadCategories();
     } else {
